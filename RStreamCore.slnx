@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="RStreamCore.Contracts/RStreamCore.Contracts.csproj" />
+  <Project Path="RStreamCore.DependencyInjection/RStreamCore.DependencyInjection.csproj" />
+  <Project Path="RStreamCore.Engine/RStreamCore.Engine.csproj" />
+</Solution>
