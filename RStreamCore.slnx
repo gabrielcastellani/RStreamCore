@@ -1,4 +1,7 @@
 <Solution>
+  <Folder Name="/Tests/">
+    <Project Path="Tests/RStreamCore.Engine.Tests/RStreamCore.Engine.Tests.csproj" Id="89cd4c72-d890-40a7-a777-d8da492eb430" />
+  </Folder>
   <Project Path="RStreamCore.Contracts/RStreamCore.Contracts.csproj" />
   <Project Path="RStreamCore.DependencyInjection/RStreamCore.DependencyInjection.csproj" />
   <Project Path="RStreamCore.Engine/RStreamCore.Engine.csproj" />
