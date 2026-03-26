@@ -1,4 +1,4 @@
-﻿namespace RStreamCore.Contracts
+﻿namespace RStreamCore.Contracts.Eventbus
 {
     public interface IEventBus
     {

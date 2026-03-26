@@ -1,9 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using RStreamCore.Contracts;
+using RStreamCore.Contracts.DeadLetter;
+using RStreamCore.Contracts.Eventbus;
 using StackExchange.Redis;
 using System.Text.Json;
 
-namespace RStreamCore.Engine
+namespace RStreamCore.Engine.EventBus
 {
     public class RedisEventBus : IEventBus
     {

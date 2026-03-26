@@ -1,4 +1,5 @@
-﻿using StackExchange.Redis;
+﻿using RStreamCore.Contracts.Connection;
+using StackExchange.Redis;
 
 namespace RStreamCore.Engine.Connection
 {

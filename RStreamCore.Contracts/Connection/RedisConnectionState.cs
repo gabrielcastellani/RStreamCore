@@ -1,4 +1,4 @@
-﻿namespace RStreamCore.Engine.Connection
+﻿namespace RStreamCore.Contracts.Connection
 {
     public enum RedisConnectionState
     {

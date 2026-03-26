@@ -1,4 +1,4 @@
-﻿namespace RStreamCore.Engine
+﻿namespace RStreamCore.Engine.EventBus
 {
     public class EventBusOptions
     {

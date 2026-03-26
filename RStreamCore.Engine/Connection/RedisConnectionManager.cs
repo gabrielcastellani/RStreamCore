@@ -1,11 +1,11 @@
 ﻿using Microsoft.Extensions.Logging;
+using RStreamCore.Contracts.Connection;
 using StackExchange.Redis;
 
 namespace RStreamCore.Engine.Connection
 {
-    public sealed class RedisConnectionManager : IRedisConnectionManager
+    internal sealed class RedisConnectionManager : IRedisConnectionManager
     {
-        private readonly string _connectionString;
         private readonly RedisManagerOptions _options;
         private readonly ILogger<RedisConnectionManager> _logger;
         private readonly SemaphoreSlim _connectLock = new(1, 1);
@@ -21,14 +21,12 @@ namespace RStreamCore.Engine.Connection
             && (_multiplexer?.IsConnected ?? false);
 
         public RedisConnectionManager(
-            string connectionString,
             RedisManagerOptions options,
             ILogger<RedisConnectionManager> logger,
-            IConnectionMultiplexerFactory? multiplexerFactory = null)
+            IConnectionMultiplexerFactory multiplexerFactory)
         {
             _logger = logger;
             _options = options;
-            _connectionString = connectionString;
             _multiplexerFactory = multiplexerFactory;
         }
 
@@ -75,7 +73,7 @@ namespace RStreamCore.Engine.Connection
             {
                 _logger.LogInformation("[RStreamCore] Connecting to Redis... (attempt {N})", _failedAttempts + 1);
 
-                var config = ConfigurationOptions.Parse(_connectionString);
+                var config = ConfigurationOptions.Parse(_options.ConnectionString);
                 config.AbortOnConnectFail = false;
                 config.ConnectTimeout = _options.ConnectTimeoutMs;
                 config.ReconnectRetryPolicy = new ExponentialRetry(_options.BaseDelayMs);

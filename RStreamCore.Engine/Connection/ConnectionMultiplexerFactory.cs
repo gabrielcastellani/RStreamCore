@@ -2,7 +2,7 @@
 
 namespace RStreamCore.Engine.Connection
 {
-    public sealed class ConnectionMultiplexerFactory : IConnectionMultiplexerFactory
+    internal sealed class ConnectionMultiplexerFactory : IConnectionMultiplexerFactory
     {
         public async Task<IConnectionMultiplexer> CreateAsync(ConfigurationOptions options)
         {
