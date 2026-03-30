@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using RStreamCore.Contracts.DeadLetter;
 using RStreamCore.Contracts.Eventbus;
+using RStreamCore.Engine.Connection;
 using StackExchange.Redis;
 using System.Text.Json;
 
@@ -8,7 +9,7 @@ namespace RStreamCore.Engine.EventBus
 {
     public class RedisEventBus : IEventBus
     {
-        private readonly IConnectionMultiplexer _redis;
+        private readonly IRedisConnectionManager _rConnectionManager;
         private readonly IServiceProvider _sp;
         private readonly EventBusOptions _opts;
         private readonly IDeadLetterHandler? _dlq;
@@ -16,12 +17,12 @@ namespace RStreamCore.Engine.EventBus
         private static readonly JsonSerializerOptions _json = new(JsonSerializerDefaults.Web);
 
         public RedisEventBus(
-            IConnectionMultiplexer redis,
+            IRedisConnectionManager rConnectionManager,
             IServiceProvider serviceProvider,
             EventBusOptions eventBusOptions,
             IDeadLetterHandler? dlq = null)
         {
-            _redis = redis;
+            _rConnectionManager = rConnectionManager;
             _sp = serviceProvider;
             _opts = eventBusOptions;
             _dlq = dlq;
@@ -30,7 +31,7 @@ namespace RStreamCore.Engine.EventBus
         public async Task PublishAsync<TEvent>(TEvent @event, CancellationToken cancellationToken = default)
             where TEvent : IEvent
         {
-            var database = _redis.GetDatabase();
+            var database = await _rConnectionManager.GetDatabaseAsync(cancellationToken);
             var stream = StreamKey<TEvent>();
             var payload = JsonSerializer.Serialize(@event, _json);
 
@@ -45,7 +46,7 @@ namespace RStreamCore.Engine.EventBus
             where TEvent : IEvent
             where THandler : IEventHandler<TEvent>
         {
-            var database = _redis.GetDatabase();
+            var database = await _rConnectionManager.GetDatabaseAsync(cancellationToken);
             var stream = StreamKey<TEvent>();
             var group = GroupName<THandler>();
 
